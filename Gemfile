@@ -6,5 +6,5 @@ source "http://rubygems.org"
 # Add dependencies to develop your gem here.
 # Include everything needed to run rake, tests, features, etc.
 group :test do
-  gem "rspec", "~> 2.4.0"
+  gem "rspec", "~> 2.12.0"
 end
