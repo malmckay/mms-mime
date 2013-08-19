@@ -2,19 +2,19 @@ require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
 ROOT_DIR = File.expand_path(File.dirname(__FILE__) + '/..')
 
-describe Mime::Mms::Parser, "when first created" do
+describe Mms::Mime::Parser, "when first created" do
   it "should not be nil" do
-    p = Mime::Mms::Parser.new
+    p = Mms::Mime::Parser.new
     p.should_not be_nil
-    p.message.class.should == Mime::Mms::Message
+    p.message.class.should == Mms::Mime::Message
     p.message.subject.should be(nil)
   end
 end
 
-describe Mime::Mms::Parser, "when initialized from files" do
+describe Mms::Mime::Parser, "when initialized from files" do
   %w(mms-1 mms-2 mms-3 mms-4 mms-5).each do |file|
     it "should parse file #{file}" do
-      p = Mime::Mms::Parser.new :file => "#{ROOT_DIR}/spec/fixtures/#{file}.bin"
+      p = Mms::Mime::Parser.new :file => "#{ROOT_DIR}/spec/fixtures/#{file}.bin"
       m = p.parse
       m.parts.should_not be_nil
       m.parts.size.should > 0
@@ -34,15 +34,15 @@ describe Mime::Mms::Parser, "when initialized from files" do
   end
 
   it "should extract subject, shortcode and number from binary-encoded file" do
-    p = Mime::Mms::Parser.new :file => "#{ROOT_DIR}/spec/fixtures/mms-1.bin"
+    p = Mms::Mime::Parser.new :file => "#{ROOT_DIR}/spec/fixtures/mms-1.bin"
     m = p.parse
     m.subject.should be_nil
     m.from.should == "14155556666"
     m.to.should == "43333"
   end
-  
+
   it "should extract subject, shortcode and number from base64 encoded file" do
-    p = Mime::Mms::Parser.new :file => "#{ROOT_DIR}/spec/fixtures/mms-5.bin"
+    p = Mms::Mime::Parser.new :file => "#{ROOT_DIR}/spec/fixtures/mms-5.bin"
     m = p.parse
     m.subject.should_not be_nil
     m.subject.should == "Test group of messages"

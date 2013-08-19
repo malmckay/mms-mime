@@ -10,7 +10,7 @@ The gem provides a simple way to parse and access MMS message contents, such as 
 
     require 'mms-mime'
 
-    p = Mime::Mms::Parser.new :bytes => env['rack.input'].read
+    p = Mms::Mime::Parser.new :bytes => env['rack.input'].read
     m = p.parse
 
     m.subject     => "Hello!"
@@ -21,7 +21,7 @@ The gem provides a simple way to parse and access MMS message contents, such as 
     File.open("image.jpg","w") { |f| f.write m.image_parts.first.body }
 
 == Contributing to mms-mime
- 
+
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet
 * Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it
 * Fork the project

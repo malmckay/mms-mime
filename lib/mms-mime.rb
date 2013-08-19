@@ -20,8 +20,8 @@ else
   end
 end
 
-module Mime
-  module Mms
+module Mms
+  module Mime
     class Part < Struct.new(:header, :body, :content_type, :text, :image, :xml, :image_type) ; end
 
     class Message
@@ -57,7 +57,7 @@ module Mime
       def text
         text_parts.inject(""){|all, p| "#{all}#{p.body} " }.chop
       end
-      
+
 
     end
 
@@ -76,7 +76,7 @@ module Mime
         end
       end
 
-      
+
       def parse
         parse_bytes(@bytes)
       end
@@ -103,10 +103,10 @@ module Mime
           elsif header =~ /Content-Transfer-Encoding: base64/
             part.body = Base64.decode64(part.body)
           end
-        
+
           if part.content_type =~ /image\/(\w+)/
             part.image_type = $1
-            part.image = true 
+            part.image = true
           elsif part.content_type =~ /text\/plain/
             part.body.chop!
             part.text = true
