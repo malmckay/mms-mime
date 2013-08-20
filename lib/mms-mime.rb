@@ -22,7 +22,29 @@ end
 
 module Mms
   module Mime
-    class Part < Struct.new(:header, :body, :content_type, :text, :image, :xml, :image_type) ; end
+    class Part
+      attr_accessor :headers
+      attr_accessor :body
+      attr_accessor :content_type
+      attr_accessor :text
+      attr_accessor :image
+      attr_accessor :xml
+      attr_accessor :image_type
+
+      def initialize(header, body)
+        self.body   = body
+        initialize_headers(header)
+      end
+
+      def initialize_headers(header)
+        @headers = Hash.new[header.lines.to_a.map{|s|s.split(':',2).map(&:strip)}]
+        puts @headers.inspect
+      end
+
+      def original_filename
+        headers["Content-Location"]
+      end
+    end
 
     class Message
       attr_accessor :parts
@@ -105,6 +127,14 @@ module Mms
           end
 
           if part.content_type =~ /image\/(\w+)/
+            part.image_type = $1
+            part.image = true
+          elsif part.content_type =~ /text\/plain/
+            part.body.chop!
+            part.text = true
+          end
+
+          if header =~ /image\/(\w+)/
             part.image_type = $1
             part.image = true
           elsif part.content_type =~ /text\/plain/
